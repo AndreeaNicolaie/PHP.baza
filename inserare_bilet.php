@@ -56,7 +56,7 @@ $mysqli->close();
                 </select>
             </label><br />
             <strong>Pret:</strong> <label>
-                <input type="text" name="Pret" id="Pret" />
+                <input type="text" name="Pret" id="Pret" readonly/>
             </label><br/>
             <strong> Eveniment: </strong>
             <select name="ID_Eveniment">
@@ -80,16 +80,22 @@ $mysqli->close();
         </div>
     </form>
     <script>
-        document.getElementById('Tip_Bilet').addEventListener('change', function() {
-            var pretStandard = {
-                'Movie': 200,
-                'Movie+Q&A': 300,
-                'Movie+Q&A+Poze': 400
-            };
-            var tipBiletSelectat = this.value;
-            document.getElementById('Pret').value = pretStandard[tipBiletSelectat];
-        });
-    </script>
+    function updatePrice() {
+        var pretStandard = {
+            'Movie': 200,
+            'Movie+Q&A': 300,
+            'Movie+Q&A+Poze': 400
+        };
+        var tipBiletSelectat = document.getElementById('Tip_Bilet').value;
+        document.getElementById('Pret').value = pretStandard[tipBiletSelectat];
+    }
+
+    // Actualizează prețul la încărcarea paginii
+    window.onload = updatePrice;
+
+    // Continuă să actualizezi prețul la schimbarea selecției
+    document.getElementById('Tip_Bilet').addEventListener('change', updatePrice);
+</script>
 </body>
 
 </html>

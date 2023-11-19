@@ -45,24 +45,29 @@ $mysqli->close();
                     <option value="Gold">Gold</option>
                     <option value="Platinum">Platinum</option>
                 </select>
-            </label><br/>
+            </label><br />
             <strong> Descriere: </strong> <input type="text" name="Descriere" value="" /> <br />
-            <strong> Pret: </strong> <input type="text" name="Pret"  id="Pret" value="" /> <br />
+            <strong> Pret: </strong> <input type="text" name="Pret" id="Pret" value="" readonly /> <br />
             <br />
             <input type="submit" name="submit" value="Submit" />
             <a href="vizualizare_pachet.php">Index</a>
         </div>
     </form>
     <script>
-        document.getElementById('Nume_Pachet').addEventListener('change', function() {
+        function updatePrice() {
             var pretStandard = {
                 'Silver': 1000,
                 'Gold': 1500,
                 'Platinum': 2000
             };
-            var tipPachetSelectat = this.value;
+            var tipPachetSelectat = document.getElementById('Nume_Pachet').value;
             document.getElementById('Pret').value = pretStandard[tipPachetSelectat];
-        });
+        }
+        // Actualizează prețul la încărcarea paginii
+        window.onload = updatePrice;
+
+        // Continuă să actualizezi prețul la schimbarea selecției
+        document.getElementById('Nume_Pachet').addEventListener('change', updatePrice);
     </script>
 </body>
 
