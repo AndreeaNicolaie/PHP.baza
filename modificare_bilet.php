@@ -62,8 +62,17 @@ $mysqli->close();
     <form action="" method="post">
         <div>
             <input type="hidden" name="ID_Bilet" value="<?php echo $ID_Bilet; ?>" />
-            <strong>Tip Bilet: </strong> <input type="text" name="Tip_Bilet" value="<?php echo $bilet['Tip_Bilet']; ?>" /><br />
-            <strong>Pret: </strong> <input type="text" name="Pret" value="<?php echo $bilet['Pret']; ?>" /><br />
+            <div>
+            <strong>Tip bilet:</strong> <label>
+                <select name="Tip_Bilet" id="Tip_Bilet">
+                    <option value="Movie">Movie</option>
+                    <option value="Movie+Q&A">Movie+Q&A</option>
+                    <option value="Movie+Q&A+Poze">Movie+Q&A+Poze</option>
+                </select>
+            </label><br />
+            <strong>Pret:</strong> <label>
+                <input type="text" name="Pret" id="Pret" />
+            </label><br/>
             <strong>Eveniment: </strong>
             <select name="ID_Eveniment">
                 <?php foreach ($evenimente as $eveniment) {
@@ -82,5 +91,16 @@ $mysqli->close();
             <a href="vizualizare_bilet.php">Index</a>
         </div>
     </form>
+    <script>
+        document.getElementById('Tip_Bilet').addEventListener('change', function() {
+            var pretStandard = {
+                'Movie': 200,
+                'Movie+Q&A': 300,
+                'Movie+Q&A+Poze': 400
+            };
+            var tipBiletSelectat = this.value;
+            document.getElementById('Pret').value = pretStandard[tipBiletSelectat];
+        });
+    </script>
 </body>
 </html>

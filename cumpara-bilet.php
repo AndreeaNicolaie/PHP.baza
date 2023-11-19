@@ -4,8 +4,8 @@ include("conectare.php");
 $error = '';
 
 if (isset($_POST['submit'])) {
-    $tip_bilet = htmlentities($_POST['tip_bilet'], ENT_QUOTES);
-    $pret_bilet = htmlentities($_POST['pret_bilet'], ENT_QUOTES);
+    $tip_bilet = htmlentities($_POST['Tip_Bilet'], ENT_QUOTES);
+    $pret_bilet = htmlentities($_POST['Pret'], ENT_QUOTES);
     $id_eveniment = htmlentities($_POST['id_eveniment'], ENT_QUOTES);
     $id_participant = htmlentities($_POST['id_participant'], ENT_QUOTES);
 
@@ -46,20 +46,33 @@ $mysqli->close();
     <input type="hidden" name="id_participant" value="1" />
     <div>
         <strong>Tip bilet:</strong> <label>
-            <select name="tip_bilet" >
-                <option value="Normal">Normal</option>
-                <option value="VIP">VIP</option>
+            <select name="Tip_Bilet" id="Tip_Bilet">
+                <option value="Movie">Movie</option>
+                <option value="Movie+Q&A">Movie+Q&A</option>
+                <option value="Movie+Q&A+Poze">Movie+Q&A+Poze</option>
             </select>
         </label><br />
         <strong>Pret:</strong> <label>
-            <input type="text" name="pret_bilet" />
+            <input type="text" name="Pret" id="Pret" />
         </label><br />
         <br />
         <button type="submit" name="submit" value="Submit" >
             Cumpara bilet
         </button>
+        <a href="home.php">Index</a>
     </div>
 </form>
+<script>
+        document.getElementById('Tip_Bilet').addEventListener('change', function() {
+            var pretStandard = {
+                'Movie': 200,
+                'Movie+Q&A': 300,
+                'Movie+Q&A+Poze': 400
+            };
+            var tipBiletSelectat = this.value;
+            document.getElementById('Pret').value = pretStandard[tipBiletSelectat];
+        });
+    </script>
 </body>
 
 </html>
