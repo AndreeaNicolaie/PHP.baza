@@ -29,15 +29,41 @@ Pachete
     }
     echo "
 <li>
+<a href='vizualizare_eveniment.php'>
+Evenimentele noastre
+</a>
+</li>
+<li>
+<a href='vizualizare_sesiune.php'>
+Sesiunile Evenimentelor
+</a>
+</li>
+<li>
 <a href='vizualizare_partener.php'>
 Parteneri
+</a>
+</li>
+<li>
+<a href='vizualizare_sponsor.php'>
+Sponsori
 </a>
 </li>
 <li>
 <a href='vizualizare_speaker.php'>
 Speakerii nostrii
 </a>
-</li>";
+</li>
+<li>
+<a href='vizualizare_bilet.php'>
+Bilete
+</a>
+</li>
+<li>
+<a href='vizualizare_agenda.php'>
+Agenda Evenimentului
+</a>
+</li>"
+;
     echo "</ul>";
     ?>
     <?php
