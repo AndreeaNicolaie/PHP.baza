@@ -1,10 +1,11 @@
 <?php
 require_once "ShoppingCart.php";
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Creare cos cumparaturi</title>
-        <link href="style.css" type="text/css" rel="stylesheet" /> 
+        <link href="style.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
         <div id="product-grid">
@@ -13,7 +14,7 @@ require_once "ShoppingCart.php";
             </div>
             <?php
             $shoppingCart = new ShoppingCart();
-            $ticket_array = $shoppingCart->getAllTickets(); // Use getAllTickets method
+            $ticket_array = $shoppingCart->getAllTickets();
             if (!empty($ticket_array)) {
                 foreach ($ticket_array as $key => $value) {
                     ?>
@@ -24,7 +25,7 @@ require_once "ShoppingCart.php";
                             </div>
                             <div class="product-price"><?php echo "$" . $ticket_array[$key]["Pret"]; ?></div>
                             <div>
-                                <input type="text" name="quantity" value="1" size="2" />
+                                <input type="text" name="Quantity" value="1" size="2" />
                                 <input type="submit" value="Add to cart" class="btnAddAction" />
                             </div>
                         </form>
