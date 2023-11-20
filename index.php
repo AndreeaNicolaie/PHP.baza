@@ -56,5 +56,4 @@
         <a href="vizualizare_agenda.php" class="menu-button">Agenda Evenimentului</a>
     </div>
 </body>
-
 </html>
