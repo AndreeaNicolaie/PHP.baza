@@ -43,6 +43,7 @@
         <a href="login.html" class="menu-button">Login</a>
         <a href="registration.html" class="menu-button">Register</a>
         <a href="magazin.php" class="menu-button">Cumpara</a>
+        <a href="cos.php" class="menu-button">Cos</a>
     </div>
     <h1>Bun venit pe pagina noastră!</h1>
     <div>
