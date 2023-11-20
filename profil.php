@@ -18,6 +18,7 @@ require ("checkLogin.php");
     <div>
         <h1>TITLU WEBSITE</h1>
         <a href="home.php"><i class="fas fa-sign-outalt"></i>Home</a>
+        <a href="magazin.php"><i class="fas fa-sign-outalt"></i>Magazin</a>
         <a href="logout.php"><i class="fas fa-sign-outalt"></i>Logout</a>
     </div>
 </nav>
