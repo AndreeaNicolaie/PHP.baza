@@ -70,7 +70,7 @@ $cartItems = $shoppingCart->getMemberCartItems($member_id);
                 <tr>
                     <th style="text-align: left;"><strong>Bilet</strong></th>
                     <th style="text-align: right;"><strong>Cantitate</strong></th>
-                    <th style="text-align: right;"><strong>Total</strong></th>
+                    <th style="text-align: right;"><strong>Pret pe bucata</strong></th>
                     <th style="text-align: center;"><strong>Action</strong></th>
                 </tr>
                 <?php foreach ($cartItems as $item) { ?>
