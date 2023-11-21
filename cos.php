@@ -103,7 +103,7 @@ $cartItems = $shoppingCart->getMemberCartItems($member_id);
     <?php } ?>
 </div>
 <div><a href="magazin.php">Alegeti si alt produs</a></div>
-<div><a href="logout.php">Abandonati sesiunea de cumparare</a></div>
+<div><a href="user_logout.php">Abandonati sesiunea de cumparare</a></div>
 <div> <a href="style.html">Home</a></div>
 </body>
 </html>
