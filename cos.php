@@ -57,7 +57,7 @@ $cartItems = $shoppingCart->getMemberCartItems($member_id);
 </head>
 <body>
 <div id="shopping-cart">
-<div class="txt-heading">
+    <div class="txt-heading">
         <div class="txt-heading-label">Cos Cumparaturi</div>
         <a id="btnEmpty" href="cos.php?action=empty">Golește Coșul</a>
     </div>
@@ -65,45 +65,51 @@ $cartItems = $shoppingCart->getMemberCartItems($member_id);
     if (is_array($cartItems) && !empty($cartItems)) {
         $item_total = 0;
         ?>
-        <table cellpadding="10" cellspacing="1">
-            <tbody>
-                <tr>
-                    <th style="text-align: left;"><strong>Bilet</strong></th>
-                    <th style="text-align: right;"><strong>Cantitate</strong></th>
-                    <th style="text-align: right;"><strong>Pret pe bucata</strong></th>
-                    <th style="text-align: center;"><strong>Action</strong></th>
-                </tr>
-                <?php foreach ($cartItems as $item) { ?>
+        <form action="salvare_cos.php" method="post">
+            <table cellpadding="10" cellspacing="1">
+                <tbody>
                     <tr>
-                        <td style="text-align: left; border-bottom: #F0F0F0 1px solid;">
-                            <strong><?php echo $item["Tip_Bilet"]; ?></strong>
-                        </td>
-                        <td style="text-align: right; border-bottom: #F0F0F0 1px solid;">
-                            <?php echo $item["Quantity"]; ?>
-                        </td>
-                        <td style="text-align: right; border-bottom: #F0F0F0 1px solid;">
-                            <?php echo "$".$item["Pret"]; ?>
-                        </td>
-                        <td style="text-align: center; border-bottom: #F0F0F0 1px solid;">
-                            <a href="cos.php?action=remove&id=<?php echo $item["Cart_ID"]; ?>">Șterge</a>
-                        </td>
+                        <th style="text-align: left;"><strong>Bilet</strong></th>
+                        <th style="text-align: right;"><strong>Cantitate</strong></th>
+                        <th style="text-align: right;"><strong>Pret pe bucata</strong></th>
+                        <th style="text-align: center;"><strong>Action</strong></th>
                     </tr>
-                <?php
-                $item_total += ($item["Pret"] * $item["Quantity"]);
-                } ?>
-                <tr>
-                    <td colspan="2" align="right"><strong>Total:</strong></td>
-                    <td align="right"><?php echo "$".$item_total; ?></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+                    <?php foreach ($cartItems as $item) { ?>
+                        <tr>
+                            <td style="text-align: left; border-bottom: #F0F0F0 1px solid;">
+                                <strong><?php echo $item["Tip_Bilet"]; ?></strong>
+                            </td>
+                            <td style="text-align: right; border-bottom: #F0F0F0 1px solid;">
+                                <?php echo $item["Quantity"]; ?>
+                            </td>
+                            <td style="text-align: right; border-bottom: #F0F0F0 1px solid;">
+                                <?php echo "$".$item["Pret"]; ?>
+                            </td>
+                            <td style="text-align: center; border-bottom: #F0F0F0 1px solid;">
+                                <a href="cos.php?action=remove&id=<?php echo $item["Cart_ID"]; ?>">Șterge</a>
+                            </td>
+                        </tr>
+                    <?php
+                    $item_total += ($item["Pret"] * $item["Quantity"]);
+                    } ?>
+                    <tr>
+                        <td colspan="2" align="right"><strong>Total:</strong></td>
+                        <td align="right"><?php echo "$".$item_total; ?></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Butonul de trimitere -->
+            <input type="submit" value="Trimite Comanda" />
+        </form>
+        <!-- Sfârșitul formularului -->
+        
     <?php } else { ?>
         <p>Coșul tău este gol!</p>
     <?php } ?>
 </div>
 <div><a href="magazin.php">Alegeti si alt produs</a></div>
 <div><a href="user_logout.php">Abandonati sesiunea de cumparare</a></div>
-<div> <a href="style.html">Home</a></div>
+<div><a href="style.html">Home</a></div>
 </body>
 </html>
