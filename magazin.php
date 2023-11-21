@@ -34,6 +34,7 @@ require_once "ShoppingCart.php";
                 }
             }
             ?>
+             <a href="style.html">Home</a>
         </div>
     </body>
 </html>

@@ -7,6 +7,8 @@ require("checkLogin.php");
 <head>
     <title>Vizualizare Parteneri</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Inregistrările din tabela partener</h1>
@@ -58,5 +60,6 @@ if ($result = $mysqli->query($query)) {
 $mysqli->close();
 ?>
 <a href="inserare_partener.php">Adăugarea unui nou partener</a>
+<a href="style.html">Home</a>
 </body>
 </html>

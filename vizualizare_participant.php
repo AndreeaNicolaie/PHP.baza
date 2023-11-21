@@ -2,7 +2,9 @@
 <html>
     <head>
         <title>Vizualizare Inregistrari</title>
-        <meta http-equiv="Content-Type" content="text/html", charset="utf-8"/>       
+        <meta http-equiv="Content-Type" content="text/html", charset="utf-8"/>   
+        <script src="script.js"></script>
+        <link rel="stylesheet" href="style.css">    
     </head>
     <body>
         <h1>Inregistrarile din tabela participant</h1>
@@ -49,5 +51,6 @@
         $mysqli->close();
         ?>
         <a href = "inserare_participant.php">Adaugarea unei noi inregistrari</a>    
+        <a href="style.html">Home</a>
     </body>
 </html>
