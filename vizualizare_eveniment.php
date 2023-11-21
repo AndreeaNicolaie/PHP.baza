@@ -37,7 +37,7 @@
             echo "Nu sunt inregistrari in tabela!";
         }
     } else {
-        echo "Error: " . $mysqli->error();
+        echo "Error: " . $mysqli->error;
     }
     $mysqli->close();
     ?>

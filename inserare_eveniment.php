@@ -44,7 +44,7 @@ $mysqli->close();
         echo "<div style='padding:4px; border:1px solid red; color:red'>" . $error . "</div>";
     }
     ?>
-    <form action="" method="post">
+    <form action="inserare_eveniment.php" method="post">
         <div>
             <strong> Nume Eveniment: </strong> <input type="text" name="Nume_Eveniment" value="" /> <br />
             <strong> Descriere: </strong> <input type="text" name="Descriere" value="" /> <br />
