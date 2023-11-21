@@ -4,6 +4,8 @@
 <head>
     <title>Vizualizare Inregistrari</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -20,7 +22,7 @@ if ($result = $mysqli->query("SELECT * FROM eveniment ORDER BY ID_Eveniment")) {
         while ($row = $result->fetch_object()) {
             echo "<tr>";
             echo "<td>" . $row->ID_Eveniment . "</td>";
-            echo "<td>" . $row->Nume_Eveniment . "</td>";
+            echo "<td><a href='event-details.php?ID_Eveniment=" . $row->ID_Eveniment . "'>" . $row->Nume_Eveniment . "</a></td>";
             echo "<td>" . $row->Descriere . "</td>";
             echo "<td>" . $row->Data_Start . "</td>";
             echo "<td>" . $row->Data_Finish . "</td>";
@@ -41,6 +43,6 @@ if ($result = $mysqli->query("SELECT * FROM eveniment ORDER BY ID_Eveniment")) {
 $mysqli->close();
 ?>
 <a href="inserare_eveniment.php">Adaugarea unei noi inregistrari</a>
+<a href="style.html">Home</a>
 </body>
-
 </html>

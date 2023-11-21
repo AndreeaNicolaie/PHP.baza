@@ -3,6 +3,8 @@
 <head>
     <title>Vizualizare Înregistrări Speaker Sesiune</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Înregistrările din Speaker Sesiune</h1>
@@ -42,5 +44,6 @@
     $mysqli->close();
     ?>
     <a href="inserare_speaker_sesiune.php">Adăugarea unei noi înregistrări</a>
+    <a href="style.html">Home</a>
 </body>
 </html>

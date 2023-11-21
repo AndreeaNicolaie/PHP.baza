@@ -3,6 +3,8 @@
 <head>
     <title>Vizualizare Sponsor</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Inregistrările din tabela sponsor</h1>
@@ -47,5 +49,6 @@
     $mysqli->close();
     ?>
     <a href="inserare_sponsor.php">Adăugarea unui nou sponsor</a>
+    <a href="style.html">Home</a>
 </body>
 </html>
