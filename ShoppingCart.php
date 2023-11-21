@@ -7,32 +7,28 @@ class ShoppingCart extends DBController {
         return $this->getDBResult($query);
     }
 
-    function getTicketById($ticket_id) {
+    function getTicketById($Ticket_id) {
         $query = "SELECT * FROM bilet WHERE ID_Bilet = ?";
-        $params = array(array("param_type" => "i", "param_value" => $ticket_id));
+        $params = array(array("param_type" => "i", "param_value" => $Ticket_id));
         return $this->getDBResult($query, $params);
     }
 
-
     // Fetch cart items for a member
-    function getMemberCartItems($member_id) {
+    function getMemberCartItems($User_ID) { // Modificare aici: member_id în User_ID
         $query = "SELECT bilet.*, tbl_cart.Cart_ID, tbl_cart.Quantity FROM bilet INNER JOIN tbl_cart ON bilet.ID_Bilet = tbl_cart.Ticket_ID WHERE tbl_cart.User_ID = ?";
         $params = array(
-            array("param_type" => "i", "param_value" => $member_id)
+            array("param_type" => "i", "param_value" => $User_ID) // Modificare aici: member_id în User_ID
         );
         return $this->getDBResult($query, $params);
     }
-    
-    
-    
 
     // Add a ticket to the cart
-    function addToCart($ticket_id, $Quantity, $member_id) {
+    function addToCart($Ticket_id, $Quantity, $User_ID) { // Modificare aici: member_id în User_ID
         $query = "INSERT INTO tbl_cart (Ticket_ID, Quantity, User_ID) VALUES (?, ?, ?)";
         $params = array(
-            array("param_type" => "i", "param_value" => $ticket_id),
+            array("param_type" => "i", "param_value" => $Ticket_id),
             array("param_type" => "i", "param_value" => $Quantity),
-            array("param_type" => "i", "param_value" => $member_id)
+            array("param_type" => "i", "param_value" => $User_ID) // Modificare aici: member_id în User_ID
         );
         $this->updateDB($query, $params);
     }
@@ -55,9 +51,9 @@ class ShoppingCart extends DBController {
     }
 
     // Empty the cart for a member
-    function emptyCart($member_id) {
+    function emptyCart($User_ID) { // Modificare aici: member_id în User_ID
         $query = "DELETE FROM tbl_cart WHERE User_ID = ?";
-        $params = array(array("param_type" => "i", "param_value" => $member_id));
+        $params = array(array("param_type" => "i", "param_value" => $User_ID)); // Modificare aici: member_id în User_ID
         $this->updateDB($query, $params);
     }
 }

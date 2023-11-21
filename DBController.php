@@ -7,7 +7,11 @@ class DBController {
     public $conn;
 
     function __construct() {
-        $this->conn = mysqli_connect($this->host, $this->user, $this->password, $this->database);
+        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+
+        if ($this->conn->connect_error) {
+            die("Connection failed: " . $this->conn->connect_error);
+        }
     }
 
     function getDBResult($query, $params = array()) {
@@ -58,6 +62,5 @@ class DBController {
     
         call_user_func_array(array($sql_statement, 'bind_param'), $bind_params);
     }
-    
 }
 ?>

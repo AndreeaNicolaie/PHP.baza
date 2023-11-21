@@ -7,7 +7,7 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-$member_id = $_SESSION['loggedin'];
+$User_ID = $_SESSION['loggedin']; // Am schimbat $member_id în $User_ID pentru a se potrivi cu modificările din ShoppingCart.php
 $shoppingCart = new ShoppingCart();
 
 // Procesarea acțiunilor pentru coș
@@ -15,9 +15,9 @@ if (!empty($_GET["action"])) {
     switch ($_GET["action"]) {
         case "add":
             if (!empty($_POST["Quantity"])) {
-                $ticketResult = $shoppingCart->getTicketById($_GET["ticket_id"]);
+                $ticketResult = $shoppingCart->getTicketById($_GET["Ticket_id"]);
                 if (!empty($ticketResult)) {
-                    $cartItems = $shoppingCart->getMemberCartItems($member_id);
+                    $cartItems = $shoppingCart->getMemberCartItems($User_ID);
 
                     $cartItemFound = false;
                     foreach ($cartItems as $cartItem) {
@@ -30,7 +30,7 @@ if (!empty($_GET["action"])) {
                     }
 
                     if (!$cartItemFound) {
-                        $shoppingCart->addToCart($ticketResult[0]["ID_Bilet"], $_POST["Quantity"], $member_id);
+                        $shoppingCart->addToCart($ticketResult[0]["ID_Bilet"], $_POST["Quantity"], $User_ID);
                     }
                 }
             }
@@ -43,11 +43,11 @@ if (!empty($_GET["action"])) {
             break;
 
         case "empty":
-            $shoppingCart->emptyCart($member_id);
+            $shoppingCart->emptyCart($User_ID);
             break;
     }
 }
-$cartItems = $shoppingCart->getMemberCartItems($member_id);
+$cartItems = $shoppingCart->getMemberCartItems($User_ID);
 ?>
 <!DOCTYPE html>
 <html>
