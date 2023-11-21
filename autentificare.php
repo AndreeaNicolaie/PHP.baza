@@ -34,7 +34,7 @@ if ($stmt = $mysqli->prepare('SELECT ID_Administrator, Parola FROM administrator
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['id'] = $id;
             // Redirect to home page
-            header('Location: index.php');
+            header('Location: style.html');
             exit();
         } else {
             // Incorrect password

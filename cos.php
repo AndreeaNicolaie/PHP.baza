@@ -3,7 +3,7 @@ require_once "ShoppingCart.php";
 session_start();
 
 if (!isset($_SESSION['loggedin'])) {
-    header('Location: index.html');
+    header('Location: style.html');
     exit;
 }
 

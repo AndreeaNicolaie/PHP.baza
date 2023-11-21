@@ -1,5 +1,5 @@
 <?php
 if (!isset($_SESSION["loggedin"])){
-    header("Location: home.php");
+    header("Location: style.html");
     exit;
 }
