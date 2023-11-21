@@ -23,7 +23,7 @@ if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
 }
 
 // Check if the email already exists
-if ($stmt = $mysqli->prepare('SELECT ID_Administrator FROM administrator WHERE Email = ?')) {
+if ($stmt = $mysqli->prepare('SELECT ID_User FROM users WHERE Email = ?')) {
     $stmt->bind_param('s', $_POST['email']);
     $stmt->execute();
     $stmt->store_result();
@@ -32,7 +32,7 @@ if ($stmt = $mysqli->prepare('SELECT ID_Administrator FROM administrator WHERE E
         echo 'Acest email este deja folosit, alegeti un altul!';
     } else {
         // email is available, proceed with registration
-        if ($stmt = $mysqli->prepare('INSERT INTO administrator (nume, prenume, email, parola) VALUES (?, ?, ?, ?)')) {
+        if ($stmt = $mysqli->prepare('INSERT INTO users (nume, prenume, email, parola) VALUES (?, ?, ?, ?)')) {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $stmt->bind_param('ssss', $_POST["name"], $_POST['surname'], $_POST['email'], $password);
             $stmt->execute();

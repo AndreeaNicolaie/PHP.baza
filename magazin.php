@@ -19,7 +19,7 @@ require_once "ShoppingCart.php";
                 foreach ($ticket_array as $key => $value) {
                     ?>
                     <div class="product-item">
-                        <form method="post" action="cos.php?action=add&Ticket_id=<?php echo $ticket_array[$key]["ID_Bilet"]; ?>">
+                        <form method="post" action="cos.php?action=add&ticket_id=<?php echo $ticket_array[$key]["ID_Bilet"]; ?>">
                             <div>
                                 <strong><?php echo $ticket_array[$key]["Nume_Eveniment"] . " - " . $ticket_array[$key]["Tip_Bilet"]; ?></strong>
                             </div>
@@ -34,7 +34,6 @@ require_once "ShoppingCart.php";
                 }
             }
             ?>
-             <a href="style.html">Home</a>
         </div>
     </body>
 </html>

@@ -2,35 +2,44 @@
 require_once "ShoppingCart.php";
 session_start();
 
+// Redirect if not logged in or if the session variable is not a valid integer
 if (!isset($_SESSION['loggedin'])) {
     header('Location: style.html');
     exit;
 }
 
-$User_ID = $_SESSION['loggedin']; // Am schimbat $member_id în $User_ID pentru a se potrivi cu modificările din ShoppingCart.php
+$member_id = filter_var($_SESSION['loggedin'], FILTER_VALIDATE_INT);
+if ($member_id === false) {
+    // If it's not, redirect to login page or handle the error as needed
+    header('Location: login.php'); // Replace with your actual login page
+    exit;
+}
+
 $shoppingCart = new ShoppingCart();
 
-// Procesarea acțiunilor pentru coș
+// Processing cart actions
 if (!empty($_GET["action"])) {
     switch ($_GET["action"]) {
         case "add":
-            if (!empty($_POST["Quantity"])) {
-                $ticketResult = $shoppingCart->getTicketById($_GET["Ticket_id"]);
+            if (!empty($_POST["Quantity"]) && isset($_GET["ticket_id"])) {
+                $ticketResult = $shoppingCart->getTicketById($_GET["ticket_id"]);
                 if (!empty($ticketResult)) {
-                    $cartItems = $shoppingCart->getMemberCartItems($User_ID);
+                    $cartItems = $shoppingCart->getMemberCartItems($member_id);
 
                     $cartItemFound = false;
-                    foreach ($cartItems as $cartItem) {
-                        if ($cartItem["ID_Bilet"] == $ticketResult[0]["ID_Bilet"]) {
-                            $newQuantity = $cartItem["Quantity"] + $_POST["Quantity"];
-                            $shoppingCart->updateCartQuantity($newQuantity, $cartItem["Cart_ID"]);
-                            $cartItemFound = true;
-                            break;
+                    if (is_array($cartItems)) {
+                        foreach ($cartItems as $cartItem) {
+                            if ($cartItem["ID_Bilet"] == $ticketResult[0]["ID_Bilet"]) {
+                                $newQuantity = $cartItem["Quantity"] + $_POST["Quantity"];
+                                $shoppingCart->updateCartQuantity($newQuantity, $cartItem["Cart_ID"]);
+                                $cartItemFound = true;
+                                break;
+                            }
                         }
                     }
 
                     if (!$cartItemFound) {
-                        $shoppingCart->addToCart($ticketResult[0]["ID_Bilet"], $_POST["Quantity"], $User_ID);
+                        $shoppingCart->addToCart($ticketResult[0]["ID_Bilet"], $_POST["Quantity"], $member_id);
                     }
                 }
             }
@@ -43,11 +52,14 @@ if (!empty($_GET["action"])) {
             break;
 
         case "empty":
-            $shoppingCart->emptyCart($User_ID);
+            $shoppingCart->emptyCart($member_id);
             break;
     }
 }
-$cartItems = $shoppingCart->getMemberCartItems($User_ID);
+
+// Initialize $cartItems to an empty array to avoid undefined variable warning
+$cartItems = $shoppingCart->getMemberCartItems($member_id) ?: [];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,10 +73,7 @@ $cartItems = $shoppingCart->getMemberCartItems($User_ID);
         <div class="txt-heading-label">Cos Cumparaturi</div>
         <a id="btnEmpty" href="cos.php?action=empty">Golește Coșul</a>
     </div>
-    <?php
-    if (is_array($cartItems) && !empty($cartItems)) {
-        $item_total = 0;
-        ?>
+    <?php if (!empty($cartItems)) { ?>
         <form action="salvare_cos.php" method="post">
             <table cellpadding="10" cellspacing="1">
                 <tbody>
@@ -74,7 +83,9 @@ $cartItems = $shoppingCart->getMemberCartItems($User_ID);
                         <th style="text-align: right;"><strong>Pret pe bucata</strong></th>
                         <th style="text-align: center;"><strong>Action</strong></th>
                     </tr>
-                    <?php foreach ($cartItems as $item) { ?>
+                    <?php
+                    $item_total = 0;
+                    foreach ($cartItems as $item) { ?>
                         <tr>
                             <td style="text-align: left; border-bottom: #F0F0F0 1px solid;">
                                 <strong><?php echo $item["Tip_Bilet"]; ?></strong>
@@ -89,9 +100,8 @@ $cartItems = $shoppingCart->getMemberCartItems($User_ID);
                                 <a href="cos.php?action=remove&id=<?php echo $item["Cart_ID"]; ?>">Șterge</a>
                             </td>
                         </tr>
-                    <?php
-                    $item_total += ($item["Pret"] * $item["Quantity"]);
-                    } ?>
+                        <?php $item_total += ($item["Pret"] * $item["Quantity"]); ?>
+                    <?php } ?>
                     <tr>
                         <td colspan="2" align="right"><strong>Total:</strong></td>
                         <td align="right"><?php echo "$".$item_total; ?></td>
@@ -99,17 +109,11 @@ $cartItems = $shoppingCart->getMemberCartItems($User_ID);
                     </tr>
                 </tbody>
             </table>
-            <!-- Butonul de trimitere -->
-            <input type="submit" value="Trimite Comanda" />
+            <input type="submit" name="submit" value="Trimite Comanda" />
+            <a href="magazin.php">Revino la cumparare</a>
         </form>
-        <!-- Sfârșitul formularului -->
-        
     <?php } else { ?>
         <p>Coșul tău este gol!</p>
     <?php } ?>
 </div>
-<div><a href="magazin.php">Alegeti si alt produs</a></div>
-<div><a href="user_logout.php">Abandonati sesiunea de cumparare</a></div>
-<div><a href="style.html">Home</a></div>
-</body>
-</html>
+<div><
