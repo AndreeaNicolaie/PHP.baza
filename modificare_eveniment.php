@@ -1,29 +1,42 @@
 <?php
-include("Conectare.php");
+// connectare bazadedate 
+include("conectare.php");
 
+//Modificare datelor 
+// se preia id din pagina vizualizare 
 $error = '';
 
-if (!empty($_POST['id'])) {
+if (!empty($_POST['ID_Eveniment'])) {
     if (isset($_POST['submit'])) {
-        if (is_numeric($_POST['id'])) {
-            $id = $_POST['id'];
-            $numeEveniment = htmlentities($_POST['nume_eveniment'], ENT_QUOTES);
-            $descriere = htmlentities($_POST['descriere'], ENT_QUOTES);
-            $locatie = htmlentities($_POST['locatie'], ENT_QUOTES);
-            $numarParticipantMaxim = htmlentities($_POST['numar_participant_maxim'], ENT_QUOTES);
+        // verificam daca id-ul din URL este unul valid  
+        if (is_numeric($_POST['ID_Eveniment'])) {
+            // preluam variabilele din URL/form  
+            $ID_Eveniment  = $_POST['ID_Eveniment'];
+            $Nume_Eveniment = htmlentities($_POST['Nume_Eveniment'], ENT_QUOTES);
+            $Descriere = htmlentities($_POST['Descriere'], ENT_QUOTES);
+            $Data_Start = htmlentities($_POST['Data_Start'], ENT_QUOTES);
+            $Data_Finish = htmlentities($_POST['Data_Finish'], ENT_QUOTES);
+            $Locatie = htmlentities($_POST['Locatie'], ENT_QUOTES);
+            $Numar_Participant_Maxim = htmlentities($_POST['Numar_Participant_Maxim'], ENT_QUOTES);
 
-            if ($numeEveniment == '' || $descriere == '' || $locatie == '' || $numarParticipantMaxim == '') {
+            // verificam daca numele, prenumele, an si grupa nu sunt goale  
+            if ($Nume_Eveniment == '' || $Descriere == '' || $Data_Start == '' || $Data_Finish == '' || $Locatie == '' || $Numar_Participant_Maxim == '') {
+                // daca sunt goale afisam mesaj de eroare    
                 echo "<div> ERROR: Completati campurile obligatorii!</div>";
             } else {
-                if ($stmt = $mysqli->prepare("UPDATE eveniment SET Nume_Eveniment=?, Descriere=?, Locatie=?, Numar_Participant_Maxim=? WHERE ID_Eveniment='" . $id . "'")) {
-                    $stmt->bind_param("sssi", $numeEveniment, $descriere, $locatie, $numarParticipantMaxim);
+                // daca nu sunt erori se face update  name, code, image, price, descriere, categorie  
+                if ($stmt = $mysqli->prepare("UPDATE eveniment SET Nume_Eveniment=?,Descriere=?,Data_Start=?,Data_Finish=?,Locatie=?, Numar_Participant_Maxim=? WHERE ID_Eveniment ='" . $ID_Eveniment  . "'")) {
+                    $stmt->bind_param("sssssi", $Nume_Eveniment, $Descriere, $Data_Start, $Data_Finish, $Locatie, $Numar_Participant_Maxim);
                     $stmt->execute();
                     $stmt->close();
-                } else {
+                } // mesaj de eroare in caz ca nu se poate face update    
+                else {
                     echo "ERROR: nu se poate executa update.";
                 }
             }
-        } else {
+        }
+        // daca variabila 'id' nu este valida, afisam mesaj de eroare 
+        else {
             echo "id incorect!";
         }
     }
@@ -33,14 +46,14 @@ if (!empty($_POST['id'])) {
 <html>
 
 <head>
-    <title> <?php if ($_GET['id'] != '') {
+    <title> <?php if ($_GET['ID_Eveniment'] != '') {
                 echo "Modificare inregistrare";
             } ?> </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 </head>
 
 <body>
-<h1><?php if (isset($_GET['id']) && $_GET['id'] != '') {
+    <h1><?php if ($_GET['ID_Eveniment'] != '') {
             echo "Modificare Inregistrare";
         } ?></h1>
 
@@ -50,26 +63,27 @@ if (!empty($_POST['id'])) {
 
     <form action="" method="post">
         <div>
-        <?php if (isset($_GET['id']) && $_GET['id'] != '') { ?>
-                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
-                <p>ID: <?php echo $_GET['id'];
-                        if ($result = $mysqli->query("SELECT * FROM eveniment WHERE ID_Eveniment='" . $_GET['id'] . "'")) {
+            <?php if ($_GET['ID_Eveniment'] != '') { ?>
+                <input type="hidden" name="ID_Eveniment" value="<?php echo $_GET['ID_Eveniment']; ?>" />
+                <p>ID: <?php echo $_GET['ID_Eveniment'];
+                        if ($result = $mysqli->query("SELECT * FROM eveniment where ID_Eveniment='" . $_GET['ID_Eveniment'] . "'")) {
                             if ($result->num_rows > 0) {
                                 $row = $result->fetch_object(); ?></p>
-                                <strong>Nume Eveniment: </strong> <input type="text" name="nume_eveniment" value="<?php echo $row->Nume_Eveniment; ?>" /><br />
-                                <strong>Descriere: </strong> <input type="text" name="descriere" value="<?php echo $row->Descriere; ?>" /><br />
-                                <strong>Locatie: </strong> <input type="text" name="locatie" value="<?php echo $row->Locatie; ?>" /><br />
-                                <strong>Numar Participant Maxim: </strong> <input type="text" name="numar_participant_maxim" value="<?php echo $row->Numar_Participant_Maxim; ?>" /><br />
-            <?php }
+                <strong>Nume Eveniment: </strong> <input type="text" name="Nume_Eveniment" value="<?php echo $row->Nume_Eveniment; ?>" /><br />
+                <strong>Descriere: </strong> <input type="text" name="Descriere" value="<?php echo $row->Descriere; ?>" /><br />
+                <strong>Data Start: </strong> <input type="text" name="Data_Start" value="<?php echo $row->Data_Start; ?>" /><br />
+                <strong>Data Finish: </strong> <input type="text" name="Data_Finish" value="<?php echo $row->Data_Finish; ?>" /><br />
+                <strong>Locatie: </strong> <input type="text" name="Locatie" value="<?php echo $row->Locatie; ?>" /><br />
+                <strong>Numar Participant Maxim: </strong> <input type="number" name="Numar_Participant_Maxim" value="<?php echo $row->Numar_Participant_Maxim; ?>" /><br />
+    <?php }
                         }
                     } ?>
-            <br />
-            <br />
-            <input type="submit" name="submit" value="Submit" />
-            <a href="vizualizare_eveniment.php">Index</a>
+    <br />
+    <br />
+    <input type="submit" name="submit" value="Submit" />
+    <a href="vizualizare_eveniment.php">Index</a>
         </div>
     </form>
 </body>
 
 </html>
-

@@ -1,62 +1,60 @@
 <?php
-// connectare bazadedate 
-include("Conectare.php");
-
-// Modificare datelor 
-// se preia id din pagina vizualizare 
+// Connectare la baza de date
+include("conectare.php");
 $error = '';
 
-if (!empty($_POST['id'])) {
-    if (isset($_POST['submit'])) {
-        // verificam daca id-ul din URL este unul valid  
-        if (is_numeric($_POST['id'])) {
-            // preluam variabilele din URL/form  
-            $id = $_POST['id'];
-            $numePartener = htmlentities($_POST['numePartener'], ENT_QUOTES);
-            $descriere = htmlentities($_POST['descriere'], ENT_QUOTES);
-            $contactNume = htmlentities($_POST['contactNume'], ENT_QUOTES);
-            $contactEmail = htmlentities($_POST['contactEmail'], ENT_QUOTES);
-            $contactTelefon = htmlentities($_POST['contactTelefon'], ENT_QUOTES);
-            $idEveniment = intval($_POST['idEveniment']);
-            $idPachet = intval($_POST['idPachet']);
+// Extrage lista de evenimente si pachete
+$resultEveniment = $mysqli->query("SELECT ID_Eveniment, Nume_Eveniment FROM eveniment");
+$evenimente = $resultEveniment->fetch_all(MYSQLI_ASSOC);
+$resultPachet = $mysqli->query("SELECT ID_Pachet, Nume_Pachet FROM pachet");
+$pachete = $resultPachet->fetch_all(MYSQLI_ASSOC);
 
-            // verificam daca numele, prenumele, an si grupa nu sunt goale  
-            if ($numePartener == '' || $descriere == '' || $contactNume == '' || $contactEmail == '' || $contactTelefon == '' || $idEveniment == 0 || $idPachet == 0) {
-                // daca sunt goale afisam mesaj de eroare    
-                echo "<div> ERROR: Completati campurile obligatorii!</div>";
+if (isset($_GET['ID_Partener']) && is_numeric($_GET['ID_Partener'])) {
+    $ID_Partener = $_GET['ID_Partener'];
+
+    // Extrage informațiile partenerului curent
+    if ($result = $mysqli->query("SELECT * FROM partener WHERE ID_Partener = $ID_Partener")) {
+        $row = $result->fetch_object();
+    }
+
+    // Procesarea formularului la trimitere
+    if (isset($_POST['submit'])) {
+        $Nume_Partener = htmlentities($_POST['Nume_Partener'], ENT_QUOTES);
+        $Descriere = htmlentities($_POST['Descriere'], ENT_QUOTES);
+        $Contact_Nume = htmlentities($_POST['Contact_Nume'], ENT_QUOTES);
+        $Contact_Email = htmlentities($_POST['Contact_Email'], ENT_QUOTES);
+        $Contact_Telefon = htmlentities($_POST['Contact_Telefon'], ENT_QUOTES);
+        $ID_Eveniment = $_POST['ID_Eveniment'];
+        $ID_Pachet = $_POST['ID_Pachet'];
+
+        // Validare campuri
+        if ($Nume_Partener == '' || $Descriere == '' || $Contact_Nume == '' || $Contact_Email == '' || $Contact_Telefon == '' || $ID_Eveniment == '' || $ID_Pachet == '') {
+            $error = 'ERROR: Completati campurile obligatorii!';
+        } else {
+            // Executarea update-ului
+            if ($stmt = $mysqli->prepare("UPDATE partener SET Nume_Partener=?, Descriere=?, Contact_Nume=?, Contact_Email=?, Contact_Telefon=?, ID_Eveniment=?, ID_Pachet=? WHERE ID_Partener=?")) {
+                $stmt->bind_param("sssssiii", $Nume_Partener, $Descriere, $Contact_Nume, $Contact_Email, $Contact_Telefon, $ID_Eveniment, $ID_Pachet, $ID_Partener);
+                $stmt->execute();
+                $stmt->close();
+                header("Location: vizualizare_partener.php"); // Redirect dupa update
+                exit;
             } else {
-                // daca nu sunt erori se face update Nume_Partener, Descriere, Contact_Nume, Contact_Email, Contact_Telefon, ID_Eveniment, ID_Pachet  
-                if ($stmt = $mysqli->prepare("UPDATE partener SET Nume_Partener=?, Descriere=?, Contact_Nume=?, Contact_Email=?, Contact_Telefon=?, ID_Eveniment=?, ID_Pachet=? WHERE ID_Partener='" . $id . "'")) {
-                    $stmt->bind_param("ssssssi", $numePartener, $descriere, $contactNume, $contactEmail, $contactTelefon, $idEveniment, $idPachet);
-                    $stmt->execute();
-                    $stmt->close();
-                } // mesaj de eroare in caz ca nu se poate face update    
-                else {
-                    echo "ERROR: nu se poate executa update.";
-                }
+                $error = "ERROR: Nu se poate executa update. " . $mysqli->error;
             }
-        }
-        // daca variabila 'id' nu este valida, afisam mesaj de eroare 
-        else {
-            echo "id incorect!";
         }
     }
 }
+$mysqli->close();
 ?>
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-
 <head>
-    <title> <?php if ($_GET['id'] != '') {
-                echo "Modificare inregistrare partener";
-            } ?> </title>
+    <title>Modificare Inregistrare Partener</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 </head>
-
 <body>
-    <h1><?php if ($_GET['id'] != '') {
-            echo "Modificare Inregistrare partener";
-        } ?></h1>
+    <h1>Modificare Inregistrare Partener</h1>
 
     <?php if ($error != '') {
         echo "<div style='padding:4px; border:1px solid red; color:red'>" . $error . "</div>";
@@ -64,29 +62,33 @@ if (!empty($_POST['id'])) {
 
     <form action="" method="post">
         <div>
-            <?php if ($_GET['id'] != '') { ?>
-                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
-                <p>ID_Partener: <?php echo $_GET['id'];
-                                if ($result = $mysqli->query("SELECT * FROM partener WHERE ID_Partener='" . $_GET['id'] . "'")) {
-                                    if ($result->num_rows > 0) {
-                                        $row = $result->fetch_object(); ?></p>
-                                        <strong>Nume Partener: </strong> <input type="text" name="numePartener" value="<?php echo $row->Nume_Partener; ?>" /><br />
-                                        <strong>Descriere: </strong> <input type="text" name="descriere" value="<?php echo $row->Descriere; ?>" /><br />
-                                        <strong>Contact Nume: </strong> <input type="text" name="contactNume" value="<?php echo $row->Contact_Nume; ?>" /><br />
-                                        <strong>Contact Email: </strong> <input type="text" name="contactEmail" value="<?php echo $row->Contact_Email; ?>" /><br />
-                                        <strong>Contact Telefon: </strong> <input type="text" name="contactTelefon" value="<?php echo $row->Contact_Telefon; ?>" /><br />
-                                        <strong>ID Eveniment: </strong> <input type="text" name="idEveniment" value="<?php echo $row->ID_Eveniment; ?>" /><br />
-                                        <strong>ID Pachet: </strong> <input type="text" name="idPachet" value="<?php echo $row->ID_Pachet; ?>" /><br />
-            <?php }
-                                    }
-                                } ?>
-            <br />
-            <br />
-            <input type="submit" name="submit" value="Submit" />
-            <a href="vizualizare_partener.php">Index Partener</a>
+            <?php if ($ID_Partener) { ?>
+                <input type="hidden" name="ID_Partener" value="<?php echo $ID_Partener; ?>" />
+                <p>ID: <?php echo $ID_Partener; ?></p>
+                <strong>Nume Partener:</strong> <input type="text" name="Nume_Partener" value="<?php echo $row->Nume_Partener; ?>" /><br />
+                <strong>Descriere:</strong> <input type="text" name="Descriere" value="<?php echo $row->Descriere; ?>" /><br />
+                <strong>Contact Nume:</strong> <input type="text" name="Contact_Nume" value="<?php echo $row->Contact_Nume; ?>" /><br />
+                <strong>Contact Email:</strong> <input type="email" name="Contact_Email" value="<?php echo $row->Contact_Email; ?>" /><br />
+                <strong>Contact Telefon:</strong> <input type="text" name="Contact_Telefon" value="<?php echo $row->Contact_Telefon; ?>" /><br />
+                <strong>Eveniment:</strong>
+                <select name="ID_Eveniment">
+                    <?php foreach ($evenimente as $eveniment) {
+                        $selected = ($eveniment['ID_Eveniment'] == $row->ID_Eveniment) ? 'selected' : '';
+                        echo "<option value='" . $eveniment['ID_Eveniment'] . "' $selected>" . $eveniment['Nume_Eveniment'] . "</option>";
+                    } ?>
+                </select><br />
+                <strong>Pachet:</strong>
+                <select name="ID_Pachet">
+                    <?php foreach ($pachete as $pachet) {
+                        $selected = ($pachet['ID_Pachet'] == $row->ID_Pachet) ? 'selected' : '';
+                        echo "<option value='" . $pachet['ID_Pachet'] . "' $selected>" . $pachet['Nume_Pachet'] . "</option>";
+                    } ?>
+                </select><br />
+                <br />
+                <input type="submit" name="submit" value="Submit" />
+                <a href="vizualizare_partener.php">Index</a>
+            <?php } ?>
         </div>
     </form>
 </body>
-
 </html>
-
