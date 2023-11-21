@@ -4,7 +4,7 @@ class DBController {
     private $user = "root";
     private $password = "";
     private $database = "eveniment2";
-    private $conn;
+    public $conn;
 
     function __construct() {
         $this->conn = mysqli_connect($this->host, $this->user, $this->password, $this->database);
