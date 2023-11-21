@@ -41,6 +41,8 @@ $mysqli->close();
 <head>
     <title>Modificare Înregistrare Sesiune</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Modificare Înregistrare Sesiune</h1>

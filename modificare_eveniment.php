@@ -50,6 +50,8 @@ if (!empty($_POST['ID_Eveniment'])) {
                 echo "Modificare inregistrare";
             } ?> </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>

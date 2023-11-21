@@ -28,6 +28,8 @@ $mysqli->close();
 <head>
     <title><?php echo "Inserare inregistrare"; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>

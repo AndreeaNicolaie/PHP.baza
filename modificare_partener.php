@@ -52,6 +52,8 @@ $mysqli->close();
 <head>
     <title>Modificare Inregistrare Partener</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Modificare Inregistrare Partener</h1>

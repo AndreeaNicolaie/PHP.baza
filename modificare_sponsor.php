@@ -49,6 +49,8 @@ $mysqli->close();
 <head>
     <title>Update Sponsor Record</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Update Sponsor Record</h1>
