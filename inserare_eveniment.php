@@ -1,6 +1,5 @@
 <?php
 include("conectare.php");
-require ("checkLogin.php");
 $error = '';
 if (isset($_POST['submit'])) {
     $Nume_Eveniment = htmlentities($_POST['Nume_Eveniment'], ENT_QUOTES);

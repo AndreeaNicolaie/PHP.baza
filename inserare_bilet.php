@@ -1,7 +1,6 @@
 <?php
 include("conectare.php");
 $error = '';
-
 // Extrage lista de evenimente
 $resultEveniment = $mysqli->query("SELECT ID_Eveniment, Nume_Eveniment FROM eveniment");
 $evenimente = $resultEveniment->fetch_all(MYSQLI_ASSOC);

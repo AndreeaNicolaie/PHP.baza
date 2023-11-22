@@ -13,13 +13,15 @@ class DBController
     /**
      * @throws Exception
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->conn = mysqli_connect($this->host, $this->user, $this->password, $this->database);
         if (mysqli_connect_error()) {
-            throw new Exception("Failed to connect to database: " . mysqli_connect_error());
+            echo "Failed to connect to database: " . mysqli_connect_error() . "<br>"; 
+            exit;
+        } else {
+            echo "Connected to database.<br>"; 
         }
-    }
+    }    
     public static function getInstance(): ?DBController
     {
         if (!self::$instance) {
