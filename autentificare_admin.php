@@ -14,7 +14,6 @@ if (!isset($_POST['email'], $_POST['password'])) {
 
 // Prepare a SQL statement to prevent SQL injection
 if ($stmt = $mysqli->prepare('SELECT ID_Administrator, Parola FROM administrator WHERE Email = ?')) {
-    // Bind parameters (s = string, i = int, b = blob, etc.); in our case, email is a string
     $stmt->bind_param('s', $_POST['email']);
     $stmt->execute();
 
