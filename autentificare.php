@@ -13,7 +13,7 @@ if (!isset($_POST['email'], $_POST['password'])) {
 }
 
 // Prepare a SQL statement to prevent SQL injection
-if ($stmt = $mysqli->prepare('SELECT ID_Administrator, Parola FROM administrator WHERE Email = ?')) {
+if ($stmt = $mysqli->prepare('SELECT ID_User, Parola FROM users WHERE Email = ?')) {
     // Bind parameters (s = string, i = int, b = blob, etc.); in our case, email is a string
     $stmt->bind_param('s', $_POST['email']);
     $stmt->execute();
@@ -30,7 +30,7 @@ if ($stmt = $mysqli->prepare('SELECT ID_Administrator, Parola FROM administrator
         if (password_verify($_POST['password'], $hashed_password)) {
             // Verification successful! User has logged in
             session_regenerate_id();
-            $_SESSION['loggedin'] = TRUE;
+            $_SESSION['loggedin'] = $id;
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['id'] = $id;
             // Redirect to home page

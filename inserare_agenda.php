@@ -1,6 +1,6 @@
 <?php
-global $mysqli;
 include("conectare.php");
+global $mysqli;
 $error = '';
 
 // Fetch Eveniment options from the database
@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
         if ($stmt = $mysqli->prepare("INSERT INTO agenda (Nume_Sesiune, Ora_Inceput, Ora_Sfarsit, Descriere, ID_Eveniment) VALUES (?, ?, ?, ?, ?)")) {
             $stmt->bind_param("ssssi", $Nume_Sesiune, $Ora_Inceput, $Ora_Sfarsit, $Descriere, $ID_Eveniment);
             if ($stmt->execute()) {
-                header("Location: vizualizare_agenda.php"); // Redirect la vizualizare agenda după insert
+                header("Location: vizualizare_agenda.php");
                 exit();
             } else {
                 $error = "ERROR: Nu se poate executa insert. " . $mysqli->error;
