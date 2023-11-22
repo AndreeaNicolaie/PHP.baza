@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once "ShoppingCart.php";
 session_start();
 
@@ -100,7 +101,8 @@ $cartItems = $shoppingCart->getMemberCartItems($member_id);
                 </tbody>
             </table>
             <!-- Butonul de trimitere -->
-            <input type="submit" value="Trimite Comanda" />
+            <input type="submit" name="submit" value="Trimite Comanda" />
+
         </form>
         <!-- Sfârșitul formularului -->
         
